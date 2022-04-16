@@ -8,11 +8,9 @@ const REFRESHTOKEN_EXPIRATION = '7d';
 
 
 export const authService = {
-    async generateAccessToken(userId) {
-        return await jwt.sign(
-            { roles: ['user'] },
-            ACCESSTOKEN_SECRET,
-            { subject: userId, expiresIn: ACCESSTOKEN_EXPIRATION }
+    async generateAccessToken(userId, username) {
+        return await jwt.sign({ roles: ['user', `${username}`] },
+            ACCESSTOKEN_SECRET, { subject: userId, expiresIn: ACCESSTOKEN_EXPIRATION }
         );
     },
     async validateAccessToken(accessToken) {
@@ -20,19 +18,17 @@ export const authService = {
     },
     async isAuthenticated(req) {
         const token = getTokenFromHeaders(req);
-    
+
         try {
             await authService.validateAccessToken(token);
             return true;
-        } catch (err) {   
+        } catch (err) {
             return false;
         }
     },
     async generateRefreshToken(userId) {
-        return await jwt.sign(
-            {},
-            REFRESHTOKEN_SECRET,
-            { subject: userId, expiresIn: REFRESHTOKEN_EXPIRATION }
+        return await jwt.sign({},
+            REFRESHTOKEN_SECRET, { subject: userId, expiresIn: REFRESHTOKEN_EXPIRATION }
         );
     },
     async validateRefreshToken(refreshToken) {

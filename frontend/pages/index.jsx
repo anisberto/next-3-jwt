@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { authService } from '../src/services/auth/authService';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -25,8 +26,17 @@ export default function HomeScreen() {
       <form onSubmit={(event) => {
         event.preventDefault();
 
-        // router.push('/auth-page-static');
-        router.push('/auth-page-ssr');
+        authService.login({
+          username: values.usuario,
+          password: values.senha,
+        }).then((response) => {
+          // router.push('/auth-page-static');
+          router.push('/auth-page-ssr');
+        })
+          .catch((error) => {
+            alert(error.message)
+          })
+
       }}>
         <input
           placeholder="Usuário" name="usuario"
@@ -36,9 +46,6 @@ export default function HomeScreen() {
           placeholder="Senha" name="senha" type="password"
           value={values.senha} onChange={handleChange}
         />
-        {/* <pre>
-          {JSON.stringify(values, null, 2)}
-        </pre> */}
         <div>
           <button>
             Entrar

@@ -11,7 +11,7 @@ const controllers = {
       db.users.findOne({ _id: sub, refresh_token }, async function (err, user) {
         if (err) return res.status(500).json({ error: { status: 500, message: 'Internal server error', } });
 
-        if(!user?._id) {
+        if (!user?._id) {
           return res.status(401).json({
             error: {
               status: 401,
@@ -21,13 +21,13 @@ const controllers = {
         }
 
         const tokens = {
-          access_token: await authService.generateAccessToken(sub),
+          access_token: await authService.generateAccessToken(sub, user),
           refresh_token: await authService.generateRefreshToken(sub),
         };
 
         db.users.update({ _id: sub }, { $set: { refresh_token: tokens.refresh_token } }, function (err) {
           if (err) throw new Error('Not avaiable to set refresh token');
-          
+
           return res.status(200).json({
             data: tokens,
           });
