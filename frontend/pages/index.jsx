@@ -34,6 +34,7 @@ export default function HomeScreen() {
           router.push('/auth-page-ssr');
         })
           .catch((error) => {
+            console.log(error)
             alert(error.message)
           })
 

@@ -1,23 +1,19 @@
+import { Httpclient } from "../../infra/Httpclient/Httpclient";
+import { tokenService } from "./tokenService";
 
 export const authService = {
     async login({ username, password }) {
 
-        return await fetch(
-            `http://localhost:4000/api/login`, {
+        return Httpclient(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username,
-                password,
-            })
+            body: { username, password, }
         })
             .then(async (serverResponse) => {
                 if (!serverResponse.ok) throw new Error('Usuario ou Senha são invalidos!')
-                const body = await serverResponse.json();
+                const body = serverResponse.body;
 
-                console.log(body.data.access_token)
+                tokenService.save(body.data.access_token)
             })
     }
 };
