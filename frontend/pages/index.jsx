@@ -5,7 +5,7 @@ import { authService } from '../src/services/auth/authService';
 export default function HomeScreen() {
   const router = useRouter();
   const [values, setValues] = React.useState({
-    usuario: 'omariosouto',
+    usuario: 'anisberto',
     senha: 'safepassword',
   });
 
