@@ -1,9 +1,7 @@
-import { tokenService } from "../src/services/auth/tokenService";
+import React from "react";
+import { withSessionHOC } from "../src/services/auth/session";
 
 function AuthPageStatic(props) {
-
-  console.log(tokenService.get())
-
   return (
     <div>
       <h1>
@@ -16,4 +14,4 @@ function AuthPageStatic(props) {
   )
 }
 
-export default AuthPageStatic;
+export default withSessionHOC(AuthPageStatic);

@@ -30,12 +30,11 @@ export default function HomeScreen() {
           username: values.usuario,
           password: values.senha,
         }).then((response) => {
-          // router.push('/auth-page-static');
-          router.push('/auth-page-ssr');
+          router.push('/auth-page-static');
+          // router.push('/auth-page-ssr');
         })
           .catch((error) => {
             console.log(error)
-            alert(error.message)
           })
 
       }}>
